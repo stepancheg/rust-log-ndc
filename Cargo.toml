@@ -3,6 +3,8 @@ name = "log-ndc"
 version = "0.1.0"
 authors = ["Stepan Koltsov <stepan.koltsov@gmail.com>"]
 edition = "2018"
+description = "log extension with NDC-like functionality"
+repository = "https://github.com/stepancheg/rust-log-ndc"
 
 [dependencies]
 log = "0.4"
