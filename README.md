@@ -14,4 +14,15 @@ log_ndc::set(format!("reqid={}", 10));
 ndc_info!("starting request");
 // outputs
 // INFO 2019-02-03T23:51:26Z: mycrate: [reqid=10] starting request
+
+warn!("something bad happened"); // this line does not output NDC information
 ```
+
+This crate depends on `log` crate, not replaces it.
+
+This crate is fully compatible with log-formatting crates like `env_logger`.
+
+Regular `trace!(...)`...`error!(...)` macros still work but do not output NDC information.
+
+The word "NDC" is [taken from log4j](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/NDC.html),
+it means "nested dianostics context".
