@@ -1,0 +1,16 @@
+sudo: false
+
+language: rust
+
+rust:
+  - stable
+  - nightly
+
+script:
+  - cargo test --all --all-targets
+
+notifications:
+  email:
+    on_success: never
+
+# vim: set ts=2 sw=2 et:
