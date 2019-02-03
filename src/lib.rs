@@ -1,4 +1,4 @@
-extern crate log;
+pub extern crate log;
 
 use std::rc::Rc;
 use std::sync::Arc;

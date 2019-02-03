@@ -27,18 +27,18 @@ macro_rules! ndc_log {
             $crate::get(|s| {
                 if s.is_empty() {
                     // TODO: figure out how to delegate to `log!` macro
-                    log::__private_api_log(
+                    $crate::log::__private_api_log(
                         format_args!($($arg)+),
                         lvl,
                         &($target, module_path!(), file!(), line!()),
-                    );
+                    )
                 } else {
-                    log::__private_api_log(
+                    $crate::log::__private_api_log(
                         // Format twice since `concat_idents!` is not stable
                         format_args!("[{}] {}", s, format_args!($($arg)+)),
                         lvl,
                         &($target, module_path!(), file!(), line!()),
-                    );
+                    )
                 };
             });
         }
@@ -116,7 +116,7 @@ macro_rules! ndc_info {
         ndc_log!(target: $target, log::Level::Info, $($arg)*);
     );
     ($($arg:tt)*) => (
-        ndc_log!(::log::Level::Info, $($arg)*);
+        ndc_log!(log::Level::Info, $($arg)*);
     )
 }
 
