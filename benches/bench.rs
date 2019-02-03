@@ -41,7 +41,7 @@ fn log_ndc_empty(b: &mut Bencher) {
 fn log_ndc_not_empty(b: &mut Bencher) {
     init_once();
 
-    log_ndc::set_static_str("server");
+    log_ndc::set("server");
     b.iter(|| {
         ndc_debug!("fgfg");
     })
