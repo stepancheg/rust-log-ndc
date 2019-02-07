@@ -6,10 +6,6 @@ extern crate test;
 
 #[macro_use]
 extern crate log;
-#[macro_use]
-extern crate log_ndc;
-
-extern crate env_logger;
 
 use test::Bencher;
 use std::sync::Once;
@@ -25,24 +21,5 @@ fn log(b: &mut Bencher) {
 
     b.iter(|| {
         debug!("fgfg");
-    })
-}
-
-#[bench]
-fn log_ndc_empty(b: &mut Bencher) {
-    init_once();
-
-    b.iter(|| {
-        ndc_debug!("fgfg");
-    })
-}
-
-#[bench]
-fn log_ndc_not_empty(b: &mut Bencher) {
-    init_once();
-
-    log_ndc::set("server");
-    b.iter(|| {
-        ndc_debug!("fgfg");
     })
 }
