@@ -1,11 +1,55 @@
-pub extern crate log;
+extern crate log;
 
 use std::rc::Rc;
 use std::sync::Arc;
 use std::cell::RefCell;
 use std::mem;
+use log::Log;
+use log::Metadata;
+use log::Record;
 
-mod macros;
+pub struct Logger {
+    underlying: Box<Log>,
+}
+
+impl Logger {
+    pub fn new(underlying: Box<Log>) -> Logger {
+        Logger {
+            underlying,
+        }
+    }
+}
+
+impl Log for Logger {
+    fn enabled(&self, metadata: &Metadata) -> bool {
+        self.underlying.enabled(metadata)
+    }
+
+    fn log(&self, record: &Record) {
+        get(|ndc| {
+            if ndc.is_empty() {
+                self.underlying.log(record)
+            } else {
+                self.underlying.log(
+                    &Record::builder()
+                        .metadata(record.metadata().clone())
+                        .args(format_args!("[{}] {}", ndc, record.args()))
+                        .module_path(record.module_path())
+                        .file(record.file())
+                        .line(record.line())
+                        .build());
+            }
+        })
+    }
+
+    fn flush(&self) {
+        self.underlying.flush()
+    }
+}
+
+pub fn set_boxed_logger(logger: Box<Log>) -> Result<(), log::SetLoggerError> {
+    log::set_boxed_logger(Box::new(Logger::new(logger)))
+}
 
 /// Diagnostic context
 #[derive(Debug, Clone)]

@@ -1,0 +1,13 @@
+[package]
+name = "log-ndc-env-logger"
+version = "0.2.0"
+authors = ["Stepan Koltsov <stepan.koltsov@gmail.com>"]
+license = "MIT/Apache-2.0"
+edition = "2018"
+description = "Very simple log-ndc + env_logger wrapper"
+repository = "https://github.com/stepancheg/rust-log-ndc"
+
+[dependencies]
+log = "0.4"
+env_logger = "0.5"
+log-ndc = { version = "=0.2.0", path = "../log-ndc" }
