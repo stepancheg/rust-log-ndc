@@ -8,4 +8,4 @@ description = "log extension with NDC-like functionality"
 repository = "https://github.com/stepancheg/rust-log-ndc"
 
 [dependencies]
-log = "0.4"
+log = { version = "0.4", features = ["std"] }
