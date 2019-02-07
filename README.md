@@ -4,48 +4,63 @@
 [![License](https://img.shields.io/crates/l/httpbis.svg)](https://github.com/stepancheg/rust-log-ndc/blob/master/LICENSE.txt)
 [![crates.io](https://img.shields.io/crates/v/httpbis.svg)](https://crates.io/crates/log-ndc)
 
-This crate allows settings a thread-local variable and crate prepends in in `ndc_*` macros. E. g.
+* `log-ndc` crate provides a logger which wraps arbitrary logger
+  which prepends thread-local information to each log message
+* `log-ndc-env-logger` is a very simple (10 lines of code) drop-in wrapper/replacement of `env_logger` crate
+
+## log-ndc
+
+This crate allows settings a thread-local variable which will be prepended to log messages.
+
+`log_ndc::set_boxed_logger(logger)` wraps passed `logger` object with `log_ndc::Logger` and calls
+underlying `log::set_boxed_logger(..)`.
+
+`log_ndc` functions like `log_ndc::set(..)` or `log_ndc::push(..)` replace thread-local text
+which is later prepended to log messages in the wrapper logger.
 
 ```
-ndc_warn!("something happened"); // works exactly like `log!` macro
+// works exactly like regular `warn!` macro with any logger
+// `warn!` is a macro from `log` library
+warn!("something happened");
 
+// set thread-local information like request id
 log_ndc::set(format!("reqid={}", 10));
 
-ndc_info!("starting request");
+info!("starting request");
 // outputs
 // INFO 2019-02-03T23:51:26Z: mycrate: [reqid=10] starting request
-
-warn!("something bad happened"); // this line does not output NDC information
 ```
 
-This crate depends on `log` crate, not replaces it.
+## log-ndc-env-logger
 
-This crate is fully compatible with log-formatting crates like `env_logger`.
+Drop-in replacement/wrapper of `env_logger` crate.
 
-Regular `trace!(...)`...`error!(...)` macros still work but do not output NDC information.
+It simply initialzes `env_logger` wrapper and wraps it with `log_ndc::Logger`.
+
+The crate is dead simple, have a look at
+[single file source](https://github.com/stepancheg/rust-log-ndc/blob/master/log-ndc-env-logger/src/lib.rs).
+
+## FAQ
+
+(I think these are FAQ, however nobody asked me anything yet.)
+
+### What what NDC means?
 
 The word "NDC" is [taken from log4j](https://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/NDC.html),
 it means "nested dianostics context".
 
-## FAQ
+### Is it compatible with `log` crate or my favorite backend?
 
-(I think these are FAQ, nobody asked me anything yet)
+Yes, `log-ndc` wraps logging backend and delegates it to `log` crate.
 
-### Is it compatible with `log` crate?
-
-Partially. When `ndc_*!` macros are used, thread-local information is logged to regular logger.
-
-When macros like `info!` from `log` crate are used, thread-local information is lost.
-
-### Is it compatible with my favorite log backend?
-
-Yes! In particular, I've used it with `env_logger`.
+So all macros like `warn!(..)` should work as before.
 
 ## See also `log-mdc`
 
-* [log-mdc](https://github.com/sfackler/rust-log-mdc) crate allows storing thread-local data by key.
-However, log-mdc is compatible only with certain loggers like [log4rs](https://github.com/sfackler/log4rs).
-It is not possible to obtain thread-local information set in `log-mdc` in when e. g. `env-logger` is used.
+* [log-mdc](https://github.com/sfackler/rust-log-mdc) is a similar project, which allows storing thread-local
+data by key. However, log-mdc is compatible only with certain loggers like
+[log4rs](https://github.com/sfackler/log4rs). It is not possible to obtain thread-local information set in
+`log-mdc` in when e. g. `env-logger` is used.
 
 ## Where should we go?
 
