@@ -1,8 +1,8 @@
 # log crate extension with NDC-like functionality
 
-[![Build Status](https://img.shields.io/travis/stepancheg/rust-log-ndc.svg)](https://travis-ci.org/stepancheg/rust-http2)
-[![License](https://img.shields.io/crates/l/httpbis.svg)](https://github.com/stepancheg/rust-log-ndc/blob/master/LICENSE.txt)
-[![crates.io](https://img.shields.io/crates/v/httpbis.svg)](https://crates.io/crates/log-ndc)
+[![Build Status](https://img.shields.io/travis/stepancheg/rust-log-ndc.svg)](https://travis-ci.org/stepancheg/log-ndc)
+[![License](https://img.shields.io/crates/l/log-ndc.svg)](https://github.com/stepancheg/rust-log-ndc/blob/master/LICENSE.txt)
+[![crates.io](https://img.shields.io/crates/v/log-ndc.svg)](https://crates.io/crates/log-ndc)
 
 * `log-ndc` crate provides a logger which wraps arbitrary logger
   which prepends thread-local information to each log message
