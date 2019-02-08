@@ -2,6 +2,8 @@ extern crate env_logger;
 extern crate log;
 extern crate log_ndc;
 
+use log::SetLoggerError;
+
 /// Wrap configured `env_logger::Logger` with NDC logger
 /// and register it as `log` logger.
 pub fn set_env_logger(logger: env_logger::Logger) -> Result<(), log::SetLoggerError> {
@@ -11,9 +13,15 @@ pub fn set_env_logger(logger: env_logger::Logger) -> Result<(), log::SetLoggerEr
 
 /// Initialize logger wrapped with `log_ndc` logger.
 /// This is similar to `env_logger::init()` call.
-pub fn init() {
+pub fn try_init() -> Result<(), SetLoggerError> {
     let env_logger = env_logger::Builder::from_default_env().build();
-    set_env_logger(env_logger).expect("failed to set logger");
+    set_env_logger(env_logger)
+}
+
+/// Initialize logger wrapped with `log_ndc` logger.
+/// This is similar to `env_logger::init()` call.
+pub fn init() {
+    try_init().expect("log_ndc_env_logger::init should not be called after logger initialized");
 }
 
 /// Initialize logger wrapped with `log_ndc` logger.
