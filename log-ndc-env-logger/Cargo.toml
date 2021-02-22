@@ -9,5 +9,5 @@ repository = "https://github.com/stepancheg/rust-log-ndc"
 
 [dependencies]
 log = "0.4"
-env_logger = "0.5"
+env_logger = "0.8.3"
 log-ndc = { path = "../log-ndc", version = "=0.2.0" }
