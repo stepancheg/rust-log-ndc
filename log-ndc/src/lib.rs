@@ -9,11 +9,11 @@ use std::rc::Rc;
 use std::sync::Arc;
 
 pub struct Logger {
-    underlying: Box<Log>,
+    underlying: Box<dyn Log>,
 }
 
 impl Logger {
-    pub fn new(underlying: Box<Log>) -> Logger {
+    pub fn new(underlying: Box<dyn Log>) -> Logger {
         Logger { underlying }
     }
 }
@@ -46,7 +46,7 @@ impl Log for Logger {
     }
 }
 
-pub fn set_boxed_logger(logger: Box<Log>) -> Result<(), log::SetLoggerError> {
+pub fn set_boxed_logger(logger: Box<dyn Log>) -> Result<(), log::SetLoggerError> {
     log::set_boxed_logger(Box::new(Logger::new(logger)))
 }
 
