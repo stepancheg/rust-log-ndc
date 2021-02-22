@@ -11,6 +11,8 @@ fn main() {
     // Outputs:
     // INFO 2019-02-07T01:08:07Z: example: app started
     info!("app started");
+    log_ndc::set("main");
+    debug!("started indeed");
 
     thread::spawn(|| {
         log_ndc::set("server");
