@@ -27,7 +27,8 @@ pub fn init() {
 /// Initialize logger wrapped with `log_ndc` logger.
 /// This is similar to `env_logger::init_from_env()` call.
 pub fn init_from_env<'e, E>(env: E)
-    where E: Into<env_logger::Env<'e>>
+where
+    E: Into<env_logger::Env<'e>>,
 {
     let env_logger = env_logger::Builder::from_env(env).build();
     set_env_logger(env_logger).expect("failed to set logger");

@@ -7,8 +7,8 @@ extern crate test;
 #[macro_use]
 extern crate log;
 
-use test::Bencher;
 use std::sync::Once;
+use test::Bencher;
 
 fn init_once() {
     static ONCE: Once = Once::new();

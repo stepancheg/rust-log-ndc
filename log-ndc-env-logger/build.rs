@@ -1,6 +1,6 @@
 use std::env;
-use std::process;
 use std::io::Read;
+use std::process;
 
 // % rustc +stable --version
 // rustc 1.26.0 (a77568041 2018-05-07)

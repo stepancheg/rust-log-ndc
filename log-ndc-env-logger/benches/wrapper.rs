@@ -8,9 +8,8 @@ extern crate test;
 extern crate log;
 extern crate log_ndc;
 
-
-use test::Bencher;
 use std::sync::Once;
+use test::Bencher;
 
 fn init_once() {
     static ONCE: Once = Once::new();

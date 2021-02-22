@@ -1,12 +1,12 @@
 extern crate log;
 
-use std::rc::Rc;
-use std::sync::Arc;
-use std::cell::RefCell;
-use std::mem;
 use log::Log;
 use log::Metadata;
 use log::Record;
+use std::cell::RefCell;
+use std::mem;
+use std::rc::Rc;
+use std::sync::Arc;
 
 pub struct Logger {
     underlying: Box<Log>,
@@ -14,9 +14,7 @@ pub struct Logger {
 
 impl Logger {
     pub fn new(underlying: Box<Log>) -> Logger {
-        Logger {
-            underlying,
-        }
+        Logger { underlying }
     }
 }
 
@@ -37,7 +35,8 @@ impl Log for Logger {
                         .module_path(record.module_path())
                         .file(record.file())
                         .line(record.line())
-                        .build());
+                        .build(),
+                );
             }
         })
     }
@@ -75,7 +74,6 @@ impl Ndc {
             Ndc::Rc(s) => &**s,
             Ndc::Arc(s) => &**s,
         }
-
     }
 }
 
@@ -125,9 +123,7 @@ pub fn set<S: Into<Ndc>>(ndc: S) {
 
 /// Set thread-local context to a given string and return previously stored value.
 pub fn replace<S: Into<Ndc>>(ndc: S) -> Ndc {
-    NDC.with(|r| {
-        mem::replace(&mut *r.borrow_mut(), ndc.into())
-    })
+    NDC.with(|r| mem::replace(&mut *r.borrow_mut(), ndc.into()))
 }
 
 /// Clear diagnostic context
@@ -153,7 +149,10 @@ pub fn get_copy() -> String {
 }
 
 /// Read a thread-local context with provided callback.
-pub fn get<R, F>(f: F) -> R where F: FnOnce(&str) -> R {
+pub fn get<R, F>(f: F) -> R
+where
+    F: FnOnce(&str) -> R,
+{
     NDC.with(|r| f(r.borrow().to_str()))
 }
 

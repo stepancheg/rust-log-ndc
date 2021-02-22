@@ -17,12 +17,16 @@ fn main() {
         // Outputs:
         // INFO 2019-02-07T01:08:07Z: example: [server] started
         info!("started");
-    }).join().unwrap();
+    })
+    .join()
+    .unwrap();
 
     thread::spawn(|| {
         log_ndc::set(format!("client {}", 17));
         // Outputs:
         // ERROR 2019-02-07T01:08:07Z: example: [client 17] ah oh
         error!("ah oh");
-    }).join().unwrap();
+    })
+    .join()
+    .unwrap();
 }
